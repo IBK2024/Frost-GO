@@ -1,0 +1,15 @@
+# !Package manager
+.venv/
+
+# !Cache
+__pycache__/
+
+# !Vscode
+.vscode/
+
+# !Others
+Prev/
+assets/
+
+# !Env
+.env
