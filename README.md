@@ -27,42 +27,29 @@ In order to not waste your time implementing a change that has already been decl
   ```bash
   git clone <repository>
   ```
-- Then you will need to install virtualenv:
+- Then you will need to install poetry:
   ```bash
-  # macOS/linux
-  python3 -m pip install virtualenv
-
-  # Windows 
-  # You can also use `py -3 -m pip install virtualenv`
-  python -m pip install virtualenv
+  pip install poetry
   ```
-- Then you will need to create virtual environment:
+- Initialize poetry
   ```bash
-  # macOS/linux
-  python3 -m venv .venv
-
-  # Windows 
-  # You can also use `py -3 -m venv .venv`
-  python -m venv .venv
-  ```
-- Then you will need to create a `.env` file in the env directory with the content of `.env.example` in the same directory
-- Activate the virtual environment
-  ```bash
-  # Mac and linux:
-  source envname/bin/activate
-
-  # Windows:
-  envname\scripts\activate
+  poetry init
   ```
 - Then you will need to install dependencies:
   ```bash
-  pip install -r requirements.txt
+  poetry install
+  ```
+- Then you will need to create a `.env` file in the env directory with the content of `.env.example` file in the same directory
+- Activate the virtual environment
+  ```bash
+  poetry shell
+  .venv\scripts\activate
   ```
 
 ### Implement your changes
-To run:
+Make sure to activate the virtual environment then to run:
 ```bash
-python -m uvicorn src/main:app --reload
+uvicorn run:app --reload
 ```
 > ⚠ Then, the development server will be started at http://127.0.0.1:8000/
 

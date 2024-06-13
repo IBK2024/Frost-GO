@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "frost-go"
+version = "1.1.1"
+description = "Frost GO is a search engine api made using python"
+authors = ["SwordKingIBK <ibukunoluwa.adetoba@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+uvicorn = "^0.30.1"
+fastapi = "^0.111.0"
+pymongo = "^4.7.3"
+python-dotenv = "^1.0.1"
+pydantic = "^2.7.4"
+mypy = "^1.10.0"
+black = "^24.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

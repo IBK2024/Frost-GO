@@ -7,9 +7,9 @@ __pycache__/
 # !Vscode
 .vscode/
 
-# !Others
-Prev/
-assets/
-
 # !Env
 .env
+
+# !Others
+private/
+assets/
