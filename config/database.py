@@ -6,21 +6,17 @@ from pymongo.server_api import ServerApi
 
 
 # !Connect to database
-def databaseConnect(
-    mongodbURI: str,
-    databaseName: str,
+def database_connect(
+    mongodb_uri: str,
+    database_name: str,
 ) -> Database[Dict[str, Any]]:
-    try:
-        # !Create a new client and connect to the server
-        client: MongoClient[Dict[str, Any]] = MongoClient(
-            mongodbURI, server_api=ServerApi("1")
-        )
+    # !Create a new client and connect to the server
+    client: MongoClient[Dict[str, Any]] = MongoClient(
+        mongodb_uri, server_api=ServerApi("1")
+    )
 
-        # !Send a ping to confirm a successful connection to database
-        client.admin.command("ping")
-        print("Successfully connected to MongoDB!")
-    except Exception as e:
-        print(e)
-        exit(0)
+    # !Send a ping to confirm a successful connection to database
+    client.admin.command("ping")
+    print("Successfully connected to MongoDB!")
 
-    return client[databaseName]
+    return client[database_name]

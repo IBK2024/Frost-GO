@@ -4,7 +4,7 @@ from pymongo.cursor import Cursor
 
 
 # !Deserialize cursor object
-def cursorDeserialize(
+def cursor_deserialize(
     cursor: Cursor[Any],
 ) -> List[Any]:
     result: List[Any] = []

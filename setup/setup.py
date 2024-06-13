@@ -4,19 +4,19 @@ from typing import Any, Dict
 from pymongo.database import Database
 
 from general.constants import TO_PARSE_DIRECTORY
-from general.createDirectory import createDirectory
-from models.queue import createQueue
+from general.create_directory import create_directory
+from models.queue import create_queue
 from setup.constants import DEFAULT_STARTING_LINK
 
 
 # !Set up
-def setUp(
+def set_up(
     db: Database[Dict[str, Any]],
 ) -> None:
 
     # !Make sure toParse directory exists
     if not path.exists(TO_PARSE_DIRECTORY):
-        createDirectory(TO_PARSE_DIRECTORY)
+        create_directory(TO_PARSE_DIRECTORY)
 
     # # !Add default starting link
-    createQueue(DEFAULT_STARTING_LINK, db)
+    create_queue(DEFAULT_STARTING_LINK, db)

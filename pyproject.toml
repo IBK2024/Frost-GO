@@ -4,7 +4,6 @@ version = "1.1.1"
 description = "Frost GO is a search engine api made using python"
 authors = ["SwordKingIBK <ibukunoluwa.adetoba@gmail.com>"]
 readme = "README.md"
-package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -15,8 +14,17 @@ python-dotenv = "^1.0.1"
 pydantic = "^2.7.4"
 mypy = "^1.10.0"
 black = "^24.4.2"
+pylint = { extras = ["spelling"], version = "^3.2.3" }
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+exclude = "private/"
+
+
+[tool.pylint.MASTER]
+ignore-paths = ["^private/.*$"]
+disable = ["C0114", "C0115", "C0116"]
