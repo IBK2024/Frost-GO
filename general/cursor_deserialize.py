@@ -8,4 +8,4 @@ def cursor_deserialize(
     cursor_object: Cursor[Any],
 ) -> List[Any]:
     """Deserialize cursor object gotten from mongodb"""
-    return [item for item in cursor_object]
+    return list(cursor_object)
