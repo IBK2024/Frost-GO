@@ -10,6 +10,12 @@ def database_connect(
     mongodb_uri: str,
     database_name: str,
 ) -> Database[Dict[str, Any]]:
+    """
+    Connect to database.
+
+    Also send a ping to confirm successful connection.
+    """
+
     # !Create a new client and connect to the server
     client: MongoClient[Dict[str, Any]] = MongoClient(
         mongodb_uri, server_api=ServerApi("1")
@@ -19,4 +25,5 @@ def database_connect(
     client.admin.command("ping")
     print("Successfully connected to MongoDB!")
 
+    # !Return client
     return client[database_name]

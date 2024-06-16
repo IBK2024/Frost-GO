@@ -15,6 +15,8 @@ pydantic = "^2.7.4"
 mypy = "^1.10.0"
 black = "^24.4.2"
 pylint = { extras = ["spelling"], version = "^3.2.3" }
+py-mon = "^2.0.5"
+tuna = "^0.5.11"
 
 
 [build-system]
@@ -23,8 +25,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 exclude = "private/"
+strict = true
 
 
 [tool.pylint.MASTER]
 ignore-paths = ["^private/.*$"]
-disable = ["C0114", "C0115", "C0116"]
+disable = ["C0114"]

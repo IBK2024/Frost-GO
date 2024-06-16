@@ -5,9 +5,7 @@ from pymongo.cursor import Cursor
 
 # !Deserialize cursor object
 def cursor_deserialize(
-    cursor: Cursor[Any],
+    cursor_object: Cursor[Any],
 ) -> List[Any]:
-    result: List[Any] = []
-    for item in cursor:
-        result.append(item)
-    return result
+    """Deserialize cursor object gotten from mongodb"""
+    return [item for item in cursor_object]
