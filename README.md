@@ -20,41 +20,100 @@ When contributing to `Frost GO`, whether on GitHub or in other community spaces:
 ### Prerequisites
 
 In order to not waste your time implementing a change that has already been declined, or is generally not needed, start by [opening an issue](https://github.com/IBK2024/Frost-GO/issues/new/choose) describing the problem you would like to solve.
+Also in order to modify the code you will need to install python to check:
+```bash
+  # macOS/linux
+  python3 -V
+
+  # Windows
+  # You can also use `py -3 -V`
+  python -V
+```
+It should return the python version if python is installed. The project uses version 3.11 and higher.
+
 
 ### Setup your environment locally
 - First you will need to create a fork of the repository.
 - Then clone the forked repository using the command but replacing`repository` with the url of the forked repository:
   ```bash
   git clone <repository>
+  cd <repository>
   ```
 - Then you will need to install poetry:
   ```bash
-  pip install poetry
+  # macOS/linux
+  python3 -m pip install poetry
+
+  # Windows
+  # You can also use `py -3 -m pip install poetry`
+  python -m pip install poetry
   ```
-- Initialize poetry
+- Then you will need to make sure he virtual environment is created in the project folder:
   ```bash
-  poetry init
+  # macOS/linux
+  python3 -m poetry config virtualenvs.in-project true
+
+  # Windows
+  # You can also use `py -3 -m poetry config virtualenvs.in-project true`
+  python -m poetry config virtualenvs.in-project true 
   ```
 - Then you will need to install dependencies:
   ```bash
-  poetry install
+  # macOS/linux
+  python3 -m poetry install
+
+  # Windows
+  # You can also use `py -3 -m poetry install`
+  python -m poetry install 
   ```
 - Then you will need to create a `.env` file in the env directory with the content of `.env.example` file in the same directory
 - Activate the virtual environment
   ```bash
-  poetry shell
-  .venv\scripts\activate
+  # macOS/linux
+  python3 -m poetry shell
+
+  # Windows
+  # You can also use `py -3 -m poetry shell`
+  python -m poetry shell
+  ```
+- If it does not automatically activate the virtual environment:
+  ```bash
+  # MacOS/linux
+  source .venv/Scripts/activate
+
+  # Windows
+  .venv\Scripts\activate
   ```
 
 ### Implement your changes
-Make sure to activate the virtual environment then to run:
-```bash
-uvicorn run:app --reload
-```
-> ⚠ Then, the development server will be started at http://127.0.0.1:8000/
+Some commands to know. Make sure to activate the virtual environment first:
+- To run the application:
+  ```bash
+  poetry run pymon main.py
+  ```
+  > ⚠ Then, the development server will be started at http://127.0.0.1:5000/
 
-> ⚠ To view all the api routes go to http://127.0.0.1:8000/docs
-> 
+  > ⚠ To view all the api routes go to http://127.0.0.1:5000/docs
+
+- To run the bench mark of how fast the application is:
+  ```bash
+  poetry run python performance_test.py
+  ```
+  If you want to see the performance visualy:
+  ```bash
+  # MacOs/linux
+  poetry run python performance_test.py
+  poetry run tuna assets/benchmark_result.prof
+
+  #Windows
+  poetry run python performance_test.py
+  poetry run tuna assets\benchmark_result.prof
+  ```
+- To lint the application:
+  ```bash
+  poetry run mypy .
+  poetry run pylint **/*.py
+  ```
 
 ### When your done
 Create a pull request
