@@ -33,13 +33,11 @@ def create_queue(
     # !Check if link already in database if it is returns it
     is_exist = queue.find_one({"url": link.url})
     if is_exist:
-        result = Queue.model_validate(is_exist)
-        return result.model_dump()
+        return Queue.model_validate(is_exist).model_dump()
 
-    # !If not in database creates a new instance
-    link_id = datetime.today().timestamp()
-    # *Uses pydantic to validate the item to be inserted if it fails throws an error
-    insert = Queue(**link.model_dump(), id=link_id).model_dump()
+    # !If not in database creates a new instance.
+    # !Uses pydantic to validate the item to be inserted if it fails throws an error.
+    insert = Queue(**link.model_dump(), id=datetime.today().timestamp()).model_dump()
     queue.insert_one(insert)
 
     # !Returns the inserted item
@@ -48,10 +46,10 @@ def create_queue(
 
 # !Get all items in the queue collection
 def get_queue(db: Database[Dict[str, Any]]) -> List[Dict[str, str | int | float]]:
-    """Gets all the items in the queue collection in the database"""
-    # !Gets items in the database and deserializes it
-    queue: List[Any] = cursor_deserialize(db["queue"].find())
-    return [Queue(**item).model_dump() for item in queue]
+    """Gets all the items in the queue collection in the database and deserialize the object"""
+    return [
+        Queue(**item).model_dump() for item in cursor_deserialize(db["queue"].find())
+    ]
 
 
 # !Deletes an item from the queue collection in the database
@@ -59,5 +57,4 @@ def delete_from_queue(
     database_item_id: float | int, db: Database[Dict[str, Any]]
 ) -> None:
     """Deletes an item from the queue collection in the database"""
-    queue = db["queue"]
-    queue.delete_one({"id": database_item_id})
+    db["queue"].delete_one({"id": database_item_id})

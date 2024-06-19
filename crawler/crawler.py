@@ -6,6 +6,7 @@ from typing import Any, Dict, List, NoReturn
 
 from pymongo.database import Database
 
+from general.parse_robot_txt import parse_robot_txt
 from models.crawled import get_crawled
 from models.queue import get_queue
 
@@ -57,9 +58,8 @@ class Crawler:
     def work(self) -> NoReturn:
         """Assigns tasks to the crawling threads"""
         while True:
-            # !Iterates over links in queue
+            # !Iterates over links in queue assigns them to the crawler thread
             for item in self.queue:
-                # !Assigns task
                 self.crawlerQueue.put(float(item["id"]))
 
             # !Waits for all tasks to be completed
@@ -72,11 +72,15 @@ class Crawler:
     def crawl_work(self) -> NoReturn:
         """Picks a website from the task queue and crawls it"""
         while True:
-            # !Picks an id from the task queue
-            link_id = self.crawlerQueue.get()
+            # !Picks an id from the task queue gets the item from the database
+            link_in_db = [
+                item for item in self.queue if item["id"] == self.crawlerQueue.get()
+            ][0]
 
-            # !Gets the id from the database
-            link_in_db = [item for item in self.queue if item["id"] == link_id][0]
-            print(link_in_db)
+            is_allowed = parse_robot_txt(str(link_in_db["url"]))
+
+            if is_allowed is True:
+                print(link_in_db)
+
             # !Finishes the task
             self.crawlerQueue.task_done()

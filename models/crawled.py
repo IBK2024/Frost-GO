@@ -28,12 +28,11 @@ def create_crawled() -> None:
 # !Get all items in the crawled collection
 def get_crawled(db: Database[Dict[str, Any]]) -> List[Dict[str, str]]:
     """Gets all the items in the crawled collection in the database"""
-
-    # !Gets items in the database and deserializes it
-    crawled: List[Any] = cursor_deserialize(db["crawled"].find())
-
     # !Validates the data received from the database
-    return [Crawled(**item).model_dump() for item in crawled]
+    return [
+        Crawled(**item).model_dump()
+        for item in cursor_deserialize(db["crawled"].find())
+    ]
 
 
 # !Deletes an item from the crawled collection in the database
@@ -41,5 +40,4 @@ def delete_from_crawled(
     database_item_id: float | int, db: Database[Dict[str, Any]]
 ) -> None:
     """Deletes an item from the crawled collection in the database"""
-    crawled = db["crawled"]
-    crawled.delete_one({"id": database_item_id})
+    db["crawled"].delete_one({"id": database_item_id})
