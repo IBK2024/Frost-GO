@@ -6,7 +6,7 @@ from pymongo.database import Database
 from config.database import database_connect
 from general.constants import TO_PARSE_DIRECTORY
 from general.create_directory import create_directory
-from models.queue import create_queue
+from models.queue import Queue
 from setup.constants import DEFAULT_STARTING_LINK
 
 
@@ -23,6 +23,7 @@ def set_up(mongodb_uri: str, database_name: str) -> Database[Dict[str, Any]]:
         create_directory(TO_PARSE_DIRECTORY)
 
     # # !Add default starting link
-    create_queue(DEFAULT_STARTING_LINK, db)
+    queue = Queue(db["queue"])
+    queue.add(DEFAULT_STARTING_LINK)
 
     return db

@@ -1,43 +1,32 @@
 from typing import Any, Dict, List
 
 import pydantic as _pydantic
-from pymongo.database import Database
-
-from general.cursor_deserialize import cursor_deserialize
-
-
-# !Crawled input model
-class CrawledInput(_pydantic.BaseModel):
-    """Model for the input to the crawled collection in the database"""
-
-    url: str
+from pymongo.collection import Collection
 
 
 # !Crawled model
-class Crawled(CrawledInput):
-    """Model for the crawled collection in the database"""
+class CrawledModel(_pydantic.BaseModel):
+    """Model for the crawled items in crawled collection in the database"""
 
     id: float
+    url: str
 
 
-# !Create a new item in the crawled collection in the database
-def create_crawled() -> None:
-    """Creates an new item in the crawled collection in the database"""
+class Crawled:
+    """Crawled database collection"""
 
+    collection: Collection[Dict[str, Any]]
 
-# !Get all items in the crawled collection
-def get_crawled(db: Database[Dict[str, Any]]) -> List[Dict[str, str]]:
-    """Gets all the items in the crawled collection in the database"""
-    # !Validates the data received from the database
-    return [
-        Crawled(**item).model_dump()
-        for item in cursor_deserialize(db["crawled"].find())
-    ]
+    def __init__(self, collection: Collection[Dict[str, Any]]) -> None:
+        self.collection = collection
 
+    def add(self, url: str) -> Any:
+        pass
 
-# !Deletes an item from the crawled collection in the database
-def delete_from_crawled(
-    database_item_id: float | int, db: Database[Dict[str, Any]]
-) -> None:
-    """Deletes an item from the crawled collection in the database"""
-    db["crawled"].delete_one({"id": database_item_id})
+    def get(self) -> List[Dict[str, str]]:
+        """Get items in the crawled collection in the database"""
+        return [CrawledModel(**item).model_dump() for item in self.collection.find()]
+
+    def delete(self, item_id: float) -> None:
+        """Deletes an item from the data using the id"""
+        self.collection.delete_one({"id": item_id})

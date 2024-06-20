@@ -7,8 +7,8 @@ from typing import Any, Dict, List, NoReturn
 from pymongo.database import Database
 
 from general.parse_robot_txt import parse_robot_txt
-from models.crawled import get_crawled
-from models.queue import get_queue
+from models.crawled import Crawled
+from models.queue import Queue as QueueCollection
 
 
 class Crawler:
@@ -28,19 +28,22 @@ class Crawler:
     db: Database[Dict[str, Any]]
     crawlerQueue: Queue[float] = Queue()
 
-    # !Initialization
     def __init__(
         self,
         max_number_of_threads: int,
         to_parse_directory: str,
         db: Database[Dict[str, Any]],
     ) -> None:
-        # !Initialization
         self.max_number_of_threads = max_number_of_threads
         self.to_parse_directory = to_parse_directory
         self.db = db
-        self.queue = get_queue(self.db)
-        self.crawled = get_crawled(self.db)
+
+        # !Get items in crawled and queue collections
+        queue = QueueCollection(self.db["queue"])
+        crawled = Crawled(db["crawled"])
+
+        self.queue = queue.get()
+        self.crawled = crawled.get()
 
         # !Creates threads
         self.main()
